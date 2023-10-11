@@ -1,0 +1,80 @@
+digraph gocallvis {
+    label="command-line-arguments";
+    labeljust="l";
+    fontname="Arial";
+    fontsize="14";
+    rankdir="LR";
+    bgcolor="lightgray";
+    style="solid";
+    penwidth="0.5";
+    pad="0.0";
+    nodesep="0.35";
+
+    node [shape="box" style="filled,rounded" fillcolor="honeydew" fontname="Verdana" penwidth="1.0" margin="0.05,0.0"];
+    edge [minlen="10"]
+
+    subgraph "cluster_focus" {
+        bgcolor="#e6ecfa";
+label="main";
+labelloc="t";
+labeljust="c";
+fontsize="18";
+        
+        "(*command-line-arguments.serverHello).SayHello" [ fillcolor="lightblue" label="(*serverHello).SayHello" penwidth="1.5" tooltip="(*command-line-arguments.serverHello).SayHello | defined in main.go:32\nat main.go:34: calling [command-line-arguments.InternalFunc]\nat main.go:33: calling [(*henry_grpc/proto.HelloRequest).GetName]\nat main.go:35: calling [(*henry_grpc/proto.HelloRequest).GetName]" ]
+        "command-line-arguments.InternalFunc" [ fillcolor="lightblue" label="InternalFunc" penwidth="1.5" tooltip="command-line-arguments.InternalFunc | defined in main.go:27" ]
+        "(*command-line-arguments.serverHi).SayHi" [ fillcolor="lightblue" label="(*serverHi).SayHi" penwidth="1.5" tooltip="(*command-line-arguments.serverHi).SayHi | defined in main.go:38\nat main.go:39: calling [(*henry_grpc/proto.HiRequest).GetName]\nat main.go:41: calling [(*henry_grpc/proto.HiRequest).GetName]\nat main.go:40: calling [command-line-arguments.InternalFunc]" ]
+        "command-line-arguments.main" [ fillcolor="lightblue" label="main" penwidth="0.5" tooltip="command-line-arguments.main | defined in main.go:44\nat main.go:51: calling [henry_grpc/proto.RegisterHelloServer]\nat main.go:50: calling [google.golang.org/grpc.NewServer]\nat main.go:56: calling [google.golang.org/grpc.NewServer]\nat main.go:53: calling [(*google.golang.org/grpc.Server).Serve]\nat main.go:59: calling [(*google.golang.org/grpc.Server).Serve]\nat main.go:57: calling [henry_grpc/proto.RegisterHiServer]" ]
+        
+        subgraph "cluster_google.golang.org/grpc" {
+        fontname="Tahoma bold";
+rank="sink";
+label="grpc";
+penwidth="0.8";
+fontsize="16";
+style="filled";
+fillcolor="lightyellow";
+URL="/?f=google.golang.org/grpc";
+tooltip="package: google.golang.org/grpc";
+        
+        "google.golang.org/grpc.NewServer" [ label="NewServer" penwidth="1.5" tooltip="google.golang.org/grpc.NewServer | defined in server.go:599" fillcolor="moccasin" ]
+        "(*google.golang.org/grpc.Server).Serve" [ fillcolor="moccasin" label="(*Server).Serve" penwidth="1.5" tooltip="(*google.golang.org/grpc.Server).Serve | defined in server.go:778" ]
+        
+    }
+
+        subgraph "cluster_henry_grpc/proto" {
+        label="henry_grpc";
+tooltip="package: henry_grpc/proto";
+style="filled";
+fillcolor="lightyellow";
+fontname="Tahoma bold";
+rank="sink";
+URL="/?f=henry_grpc/proto";
+penwidth="0.8";
+fontsize="16";
+        
+        "(*henry_grpc/proto.HelloRequest).GetName" [ fillcolor="moccasin" label="(*HelloRequest).GetName" penwidth="1.5" tooltip="(*henry_grpc/proto.HelloRequest).GetName | defined in henry_grpc.pb.go:63" ]
+        "henry_grpc/proto._Hello_SayHello_Handler" [ fillcolor="moccasin" label="_Hello_SayHello_Handler" penwidth="0.5" tooltip="henry_grpc/proto._Hello_SayHello_Handler | defined in henry_grpc_grpc.pb.go:73\nat henry_grpc_grpc.pb.go:79: calling [(*command-line-arguments.serverHello).SayHello]" ]
+        "(*henry_grpc/proto.HiRequest).GetName" [ fillcolor="moccasin" label="(*HiRequest).GetName" penwidth="1.5" tooltip="(*henry_grpc/proto.HiRequest).GetName | defined in henry_grpc.pb.go:157" ]
+        "henry_grpc/proto._Hi_SayHi_Handler" [ tooltip="henry_grpc/proto._Hi_SayHi_Handler | defined in henry_grpc_grpc.pb.go:159\nat henry_grpc_grpc.pb.go:165: calling [(*command-line-arguments.serverHi).SayHi]" fillcolor="moccasin" label="_Hi_SayHi_Handler" penwidth="0.5" ]
+        "henry_grpc/proto.RegisterHelloServer" [ fillcolor="moccasin" label="RegisterHelloServer" penwidth="1.5" tooltip="henry_grpc/proto.RegisterHelloServer | defined in henry_grpc_grpc.pb.go:69" ]
+        "henry_grpc/proto.RegisterHiServer" [ fillcolor="moccasin" label="RegisterHiServer" penwidth="1.5" tooltip="henry_grpc/proto.RegisterHiServer | defined in henry_grpc_grpc.pb.go:155" ]
+        "henry_grpc/proto._Hi_SayHi_Handler$1" [ fillcolor="moccasin" label="_Hi_SayHi_Handler$1" style="dotted,filled" tooltip="henry_grpc/proto._Hi_SayHi_Handler$1 | defined in henry_grpc_grpc.pb.go:171\nat henry_grpc_grpc.pb.go:172: calling [(*command-line-arguments.serverHi).SayHi]" ]
+        "henry_grpc/proto._Hello_SayHello_Handler$1" [ label="_Hello_SayHello_Handler$1" style="dotted,filled" tooltip="henry_grpc/proto._Hello_SayHello_Handler$1 | defined in henry_grpc_grpc.pb.go:85\nat henry_grpc_grpc.pb.go:86: calling [(*command-line-arguments.serverHello).SayHello]" fillcolor="moccasin" ]
+        
+    }
+
+    }
+
+    "(*command-line-arguments.serverHello).SayHello" -> "command-line-arguments.InternalFunc" [ tooltip="at main.go:34: calling [command-line-arguments.InternalFunc]" ]
+    "henry_grpc/proto._Hello_SayHello_Handler" -> "(*command-line-arguments.serverHello).SayHello" [ style="dashed" color="saddlebrown" tooltip="at henry_grpc_grpc.pb.go:79: calling [(*command-line-arguments.serverHello).SayHello]" ]
+    "(*command-line-arguments.serverHi).SayHi" -> "(*henry_grpc/proto.HiRequest).GetName" [ color="saddlebrown" tooltip="at main.go:39: calling [(*henry_grpc/proto.HiRequest).GetName]\nat main.go:41: calling [(*henry_grpc/proto.HiRequest).GetName]" ]
+    "(*command-line-arguments.serverHi).SayHi" -> "command-line-arguments.InternalFunc" [ tooltip="at main.go:40: calling [command-line-arguments.InternalFunc]" ]
+    "command-line-arguments.main" -> "henry_grpc/proto.RegisterHelloServer" [ color="saddlebrown" tooltip="at main.go:51: calling [henry_grpc/proto.RegisterHelloServer]" ]
+    "henry_grpc/proto._Hi_SayHi_Handler$1" -> "(*command-line-arguments.serverHi).SayHi" [ style="dashed" color="saddlebrown" tooltip="at henry_grpc_grpc.pb.go:172: calling [(*command-line-arguments.serverHi).SayHi]" ]
+    "(*command-line-arguments.serverHello).SayHello" -> "(*henry_grpc/proto.HelloRequest).GetName" [ color="saddlebrown" tooltip="at main.go:33: calling [(*henry_grpc/proto.HelloRequest).GetName]\nat main.go:35: calling [(*henry_grpc/proto.HelloRequest).GetName]" ]
+    "henry_grpc/proto._Hi_SayHi_Handler" -> "(*command-line-arguments.serverHi).SayHi" [ style="dashed" color="saddlebrown" tooltip="at henry_grpc_grpc.pb.go:165: calling [(*command-line-arguments.serverHi).SayHi]" ]
+    "command-line-arguments.main" -> "google.golang.org/grpc.NewServer" [ color="saddlebrown" tooltip="at main.go:50: calling [google.golang.org/grpc.NewServer]\nat main.go:56: calling [google.golang.org/grpc.NewServer]" ]
+    "command-line-arguments.main" -> "(*google.golang.org/grpc.Server).Serve" [ color="saddlebrown" tooltip="at main.go:53: calling [(*google.golang.org/grpc.Server).Serve]\nat main.go:59: calling [(*google.golang.org/grpc.Server).Serve]" ]
+    "command-line-arguments.main" -> "henry_grpc/proto.RegisterHiServer" [ color="saddlebrown" tooltip="at main.go:57: calling [henry_grpc/proto.RegisterHiServer]" ]
+    "henry_grpc/proto._Hello_SayHello_Handler$1" -> "(*command-line-arguments.serverHello).SayHello" [ style="dashed" color="saddlebrown" tooltip="at henry_grpc_grpc.pb.go:86: calling [(*command-line-arguments.serverHello).SayHello]" ]
+}
